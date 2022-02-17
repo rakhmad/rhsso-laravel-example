@@ -14,5 +14,6 @@ use App\Http\Controllers\API\CommentController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::apiResource('comments', CommentController::class);
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::get('comments', [CommentController::class, 'index']);
+});
