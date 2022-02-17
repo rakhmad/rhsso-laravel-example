@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -15,8 +16,11 @@ class CommentController extends Controller
     */
   public function index()
   {
-    $comments = Comment::all();
-    return response()->json($comments);
+      if (Auth::hasRole('springboot-microservice', 'user')) {
+          $comments = Comment::all();
+          return response()->json($comments);
+      }
+      return abort(403);
   }
 
   /**
